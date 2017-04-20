@@ -1,4 +1,5 @@
 import React from 'react';
+import { Collapse } from 'react-collapse';
 
 class NotiListItem extends React.Component {
    constructor(props) {
@@ -18,19 +19,22 @@ class NotiListItem extends React.Component {
   render() {
     return (
       <div className='noti-list-item'>
-        <div className='noti-list-label' onClick={this.toggleDescription.bind(this)}>
+        <div className='noti-list-label'>
           <input 
             className='noti-list-item-checkbox' 
             value={this.props.noti}
             type='checkbox' />
 
-          <span className='noti-list-item-noti'>{this.props.noti}</span>
+          <span className='noti-list-item-noti' onClick={this.toggleDescription.bind(this)}>
+            {this.props.noti}
+          </span>
         </div>
-        { this.state.showDescription ? (
+
+        <Collapse isOpened={this.state.showDescription}>
           <div className='noti-list-description'>
             <span className='noti-list-item-description' >{this.props.description}</span>
           </div>
-        ) : '' }
+        </Collapse>
         
       </div>
     );

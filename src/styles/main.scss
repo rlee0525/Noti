@@ -35,6 +35,25 @@
   }
 }
 
-input {
-  color: blue;
+.noti-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.noti-list-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+.visible {
+  height: 100%;
+  display: inline-block;
+}
+
+.hidden {
+  height: 0%;
+  display: none;
 }

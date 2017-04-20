@@ -32,7 +32,10 @@
         "team_add": "Any time a team is added or modified on a Repository.",
         "watch": "Any time a User stars a Repository."
     },
-    "facebook": {},
+    "facebook": {
+        "message": "Any time you recieve a message",
+        "like": "Any time your posts are liked"
+    },
     "google": {},
     "linkedin": {}
 }

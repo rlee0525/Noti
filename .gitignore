@@ -1,5 +1,6 @@
 node_modules
 config
 frontend
-app/*
+app/javascripts/*
+app/stylesheets/*
 .yarnclean

@@ -41,7 +41,6 @@ class App extends React.Component {
     return (
       <div className="relative-content">
         <div className='left'>
-          <h1>Services</h1>
           <div className="tab-list">
             {this.renderTabs()}
           </div>
@@ -51,7 +50,9 @@ class App extends React.Component {
             <div className='noti-list-header'>
               <h1>{this.state.tab}</h1>
             </div>
-            {this.renderNotifcations()}
+            <div className='noti-list-items'>
+              {this.renderNotifcations()}
+            </div>
           </div>
         </div>
        

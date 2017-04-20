@@ -6,47 +6,55 @@
 }
 
 .relative-content {
-  width: 90%;
-  margin-top: 30px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 
+// left setting bar
 .left {
-  h1 {
-    font-weight: 400;
-    font-size: 18px;
-  }
+  background: #111;
+  // border-right: 1px solid #e2e2e2;
+  width: 150px;
+  padding: 30px;
+  padding-right: 20px;
+  box-shadow: 0px 1px solid #333;
+  position: fixed;
+  height: 100vh;
 }
 
 .tab-list {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-right: 20px;
+  align-items: flex-start;
 
   div {
     cursor: pointer;
-    border: 1px solid #e2e2e2;
-    background: #fff;
-    color: #333;
-    border-top: none;
-    border-left: none;
+    color: #fff;
     padding: 3px;
     margin: 3px;
     width: 100px;
-    text-align: center;
+    text-align: left;
     text-transform: capitalize;
     font-weight: 500px;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-    border-radius: 2px;
+    opacity: 0.5;
   }
 
   div:hover {
-    box-shadow: 0px 1px 2px #e2e2e2;
-    background: #fffffe;
+    opacity: 1;
   }
+}
+
+
+// right setting bar
+.right {
+  margin-left: 150px;
+  color: #fff;
+  background: linear-gradient(0deg, #111, #222 85%, #444 95%, #555);
+  width: 90vw;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 .noti-list {
@@ -55,9 +63,30 @@
   justify-content: flex-start;
 }
 
+.noti-list-header {
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+
+  h1 {
+    text-transform: capitalize;
+    font-size: 40px;
+    padding-left: 50px;
+    font-family: sans-serif;
+    font-weight: 700;
+  }
+}
+
+.noti-list-items {
+  margin-top: 120px;
+}
+
 .noti-list-item {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 10px; 
+  width: 500px;
 }

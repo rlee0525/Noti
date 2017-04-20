@@ -21,5 +21,5 @@ function doNotify(evt) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  doNotify('basic');
+  // doNotify('basic');
 });

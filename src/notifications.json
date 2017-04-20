@@ -31,5 +31,8 @@
         "team":	"Any time a team is created, deleted, modified, or added to or removed from a repository. Organization hooks only",
         "team_add":	"Any time a team is added or modified on a Repository.",
         "watch":	"Any time a User stars a Repository."
-    }
+    },
+    "facebook": {},
+    "google": {},
+    "linkedin": {}
 }

@@ -4,9 +4,13 @@ function getDevTool() {
     if (process.env.NODE_ENV !== 'production') {
         return 'source-map'; //enables source map
     }
-
     return false;
 }
+
+const extractSass = new ExtractTextPlugin({
+    filename: "./app/stylesheets/[name].css",
+    disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
     entry: {
@@ -15,26 +19,33 @@ module.exports = {
     output: {
         filename: './app/javascripts/bundle.js',
     },
-    devtool: 'source-map',
+    devtool: getDevTool(),
     module: {
-        loaders: [{
+        rules: [
+            {
+                test: /\.scss$/,
+                use: extractSass.extract({
+                    use: [{
+                        loader: "css-loader"
+                    }, {
+                        loader: "sass-loader"
+                    }],
+                    // use style-loader in development
+                    fallback: "style-loader"
+                }),
+            },
+            {
                 test: [/\.js$/, /\.jsx$/],
                 exclude: /(node_modules)/,
                 loader: 'babel-loader',
                 query: {
                     presets: ['react', 'es2015']
                 }
-            },
-            {
-                test: /\.scss$/,
-                loaders: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            filename: './app/stylesheets/bundle.css'
-        })
+        extractSass
     ],
     resolve: {
         extensions: ['.js', '.jsx', '*', '.scss']

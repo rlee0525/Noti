@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { loginUser } from '../actions/oauth_actions';
 
 class Splash extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Splash extends React.Component {
       <div>
         NOTI!
         Sign Up.
-        Log In.
+        <div onClick={this.props.loginUser}>Log In.</div>
         <div onClick={ () => this.props.router.push('/app') }> CLICK ME </div>
       </div>
     )
@@ -24,9 +25,7 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // receiveQuery: query => dispatch(receiveQuery(query)),
-  // loginUser: () => dispatch(loginUser()),
-  // logout: () => dispatch(receiveUser(null))
+  loginUser: () => dispatch(loginUser())
 });
 
 export default connect(

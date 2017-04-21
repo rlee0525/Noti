@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
+import { receiveUser } from '../actions/oauth_actions';
 import Notifications from '../notifications.json';
 import NotiListItem from './noti_list_item';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -45,7 +47,7 @@ class App extends React.Component {
             {this.renderTabs()}
           </div>
           <div className="tab-list-logout"
-               onClick={ () => this.props.router.push('/') }> LOGOUT </div>
+               onClick={ () => { this.props.logout; this.props.router.push('/app'); } }> LOGOUT </div>
         </div>
         <div className='right'>
           <div className="noti-list">
@@ -63,10 +65,12 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = ({ user }) => ({
+  user
 });
 
 const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(receiveUser(null))
 });
 
 export default connect(

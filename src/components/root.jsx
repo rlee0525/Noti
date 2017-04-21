@@ -7,13 +7,15 @@ import styles from '../styles/main';
 import App    from './app';
 import Splash from './splash';
 
-const Root = ({ store }) => (
-  <Provider store={ store }>
-    <Router history={ hashHistory }>
-      <Route path='/' component={ Splash } />
-      <Route path='/app' component={ App } />
-    </Router>
-  </Provider>
-);
+const Root = ({ store }) => {
+  return (
+    <Provider store={ store }>
+      <Router history={ hashHistory }>
+        <Route path='/' component={ Splash } />
+        <Route path='/app' component={ App } />
+      </Router>
+    </Provider>
+  );
+};
 
 export default Root;

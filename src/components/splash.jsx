@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/oauth_actions';
+import { authenticateGithub } from '../util/github_oauth';
 
 class Splash extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Splash extends React.Component {
   render() {
     return (
       <div>
+        <div onClick={authenticateGithub}>Github</div>
         NOTI!
         Sign Up.
         <div onClick={this.props.loginUser}>Log In.</div>

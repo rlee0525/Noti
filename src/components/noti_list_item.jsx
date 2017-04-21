@@ -20,17 +20,25 @@ class NotiListItem extends React.Component {
     return (
       <div className='noti-list-item'>
         <div className='noti-list-label'>
-          <input 
-            className='noti-list-item-checkbox' 
-            value={this.props.noti}
-            type='checkbox' />
+          <div className='noti-list-container'>
+            <div className='noti-list-item-noti-descriptions'>
+              <span
+                className='noti-list-item-noti'
+                onClick={this.toggleDescription.bind(this)}>
 
-          <span 
-            className='noti-list-item-noti' 
-            onClick={this.toggleDescription.bind(this)}>
-            
-            {this.props.noti}
-          </span>
+                {this.props.noti}
+              </span>
+            </div>
+            <div className='noti-list-item-noti-icons'>
+              <label className="switch">
+                <input
+                  className='noti-list-item-checkbox'
+                  value={this.props.noti}
+                  type='checkbox' />
+                <div className="slider round"></div>
+              </label>
+            </div>
+          </div>
         </div>
 
         <Collapse isOpened={this.state.showDescription}>
@@ -40,7 +48,7 @@ class NotiListItem extends React.Component {
             </span>
           </div>
         </Collapse>
-        
+
       </div>
     );
   }

@@ -80,13 +80,11 @@ export const authenticateGithub = () => {
     }
   };
 
-  authWindow.webContents.on('will-navigate', (event, url) => {
-    console.log('will-navigate')
-    handleCallback(url);
-  });
+  // authWindow.webContents.on('will-navigate', (event, url) => {
+  //   handleCallback(url);
+  // });
 
   authWindow.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
-    console.log('redirect-request')
     handleCallback(newUrl);
   });
 

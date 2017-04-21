@@ -16,7 +16,13 @@ class App extends React.Component {
 
   renderTabs() {
     let tabs = Object.keys(Notifications);
-    return tabs.map( tab => <div key={Math.random()} >{tab}</div>);
+    return tabs.map( tab => (
+      <div 
+        key={Math.random()} 
+        onClick={() => this.setState({ tab })} >
+        {tab}
+      </div>
+    ));
   }
 
   renderNotifcations() {
@@ -34,12 +40,22 @@ class App extends React.Component {
   render() {
     return (
       <div className="relative-content">
-        <div className="tab-list">
-          {this.renderTabs()}
+        <div className='left'>
+          <div className="tab-list">
+            {this.renderTabs()}
+          </div>
         </div>
-        <div className="noti-list">
-          {this.renderNotifcations()}
+        <div className='right'>
+          <div className="noti-list">
+            <div className='noti-list-header'>
+              <h1>{this.state.tab}</h1>
+            </div>
+            <div className='noti-list-items'>
+              {this.renderNotifcations()}
+            </div>
+          </div>
         </div>
+       
       </div>
     );
   }

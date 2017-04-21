@@ -47,7 +47,7 @@ class App extends React.Component {
             {this.renderTabs()}
           </div>
           <div className="tab-list-logout"
-               onClick={ () => { this.props.logout; this.props.router.push('/app'); } }> LOGOUT </div>
+               onClick={ () => { this.props.logout(); this.props.router.push('/'); } }> LOGOUT </div>
         </div>
         <div className='right'>
           <div className="noti-list">

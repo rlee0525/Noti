@@ -17,8 +17,8 @@ class App extends React.Component {
   renderTabs() {
     let tabs = Object.keys(Notifications);
     return tabs.map( tab => (
-      <div 
-        key={Math.random()} 
+      <div
+        key={Math.random()}
         onClick={() => this.setState({ tab })} >
         {tab}
       </div>
@@ -30,8 +30,8 @@ class App extends React.Component {
     let keys = Object.keys(notifications);
 
     return keys.map( key => (
-      <NotiListItem 
-        key={key} 
+      <NotiListItem
+        key={key}
         noti={key}
         description={notifications[key]} />
     ));
@@ -44,6 +44,8 @@ class App extends React.Component {
           <div className="tab-list">
             {this.renderTabs()}
           </div>
+          <div className="tab-list-logout"
+               onClick={ () => this.props.router.push('/') }> LOGOUT </div>
         </div>
         <div className='right'>
           <div className="noti-list">
@@ -55,7 +57,7 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-       
+
       </div>
     );
   }

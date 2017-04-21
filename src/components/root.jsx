@@ -4,13 +4,14 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import styles from '../styles/main';
 
 // main app components
-import App            from './app';
+import App    from './app';
+import Splash from './splash';
 
 const Root = ({ store }) => (
   <Provider store={ store }>
     <Router history={ hashHistory }>
-      <Route path='/' component={ App }>
-      </Route>
+      <Route path='/' component={ Splash } />
+      <Route path='/app' component={ App } />
     </Router>
   </Provider>
 );

@@ -4,12 +4,11 @@ const { BrowserWindow } = window.require('electron').remote;
 const request = window.require('superagent');
 
 const requestGoogleToken = (options, code) => {
-
   request.post('https://accounts.google.com/o/oauth2/token', {
     client_id: options.client_id,
     client_secret: options.client_secret,
     code: code,
-    redirect_uri: 'http://localhost:5000/oauth2callback',
+    redirect_uri: 'http://localhost:5000/noti_google_callback',
     grant_type: 'authorization_code'
   })
   .set("Content-Type", "application/x-www-form-urlencoded")
@@ -37,11 +36,11 @@ const requestGoogleToken = (options, code) => {
 
 export const authenticateUser = dispatch => {
   let baseUrl = 'https://accounts.google.com/o/oauth2/auth';
-  let redirectUrl = 'http://localhost:5000/oauth2callback';
+  let redirectUrl = 'http://localhost:5000/noti_google_callback';
   let scope = [
-    'https://www.googleapis.com/auth/gmail.readonly',
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/gmail.readonly'
   ].join(' ');
 
   let params = {
@@ -119,7 +118,7 @@ export const fetchUserInfo = () => dispatch => {
   request
     .get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`)
     .end((err, response) => {
-      console.log(response);
+      // console.log(response);
       if (response && response.ok) {
         localStorage.setItem('google-user', JSON.stringify(response.body));
         dispatch({
@@ -160,18 +159,19 @@ export const refreshToken = () => {
 
 export const getGmail = () => {
   let userId = JSON.parse(window.localStorage.getItem('google-user')).email;
-
-  request.post(`https://www.googleapis.com/gmail/v1/users/${userId}/watch`, {
-                  key: localStorage.getItem('google-access-token')
-                })
-         .send({ topicName: "projects/noti-165302/topics/gmail" })
-         .set("Content-Type", "application/json")
-         .end(function (err, response) {
+  let accessToken = window.localStorage.getItem('google-access-token');
+  request.post(`https://www.googleapis.com/gmail/v1/users/${userId}/watch?key=${API_KEY.google.apiKey}`)
+         .send({
+           "labelIds": ["INBOX"],
+           "topicName": "projects/noti-165302/topics/gmail"
+         })
+         .set("Authorization", 'Bearer ' + accessToken)
+         .end(function (response, err) {
            if (response && response.ok) {
              console.log("Success");
              console.log(response.body);
            } else {
-             console.log("NOPE");
+             console.log("BE HAPPY!");
              console.log(err);
            }
          });

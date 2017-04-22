@@ -12,6 +12,5 @@ export const loginUser = () => dispatch => {
 };
 
 export const watchGmail = () => dispatch => {
-  console.log("what");
   OauthAPI.getGmail(dispatch);
 };

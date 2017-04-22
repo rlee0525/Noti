@@ -36,6 +36,8 @@
         "message": "Any time you recieve a message",
         "like": "Any time your posts are liked"
     },
-    "google": {},
+    "google": {
+      "email": "Any time you receive an email"
+    },
     "linkedin": {}
 }

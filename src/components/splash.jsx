@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginUser } from '../actions/oauth_actions';
+import { loginUser, watchGmail } from '../actions/oauth_actions';
 import { authenticateGithub } from '../util/github_oauth';
 
 class Splash extends React.Component {
@@ -11,6 +11,7 @@ class Splash extends React.Component {
   render() {
     return (
       <div>
+        <div onClick={this.props.watchGmail}> NOTI GMAIL!</div>
         <div onClick={authenticateGithub}>Github</div>
         NOTI!
         Sign Up.
@@ -27,7 +28,8 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: () => dispatch(loginUser())
+  loginUser: () => dispatch(loginUser()),
+  watchGmail: () => dispatch(watchGmail())
 });
 
 export default connect(

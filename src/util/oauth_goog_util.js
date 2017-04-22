@@ -1,15 +1,14 @@
-import GOOGL_API_KEY from '../../config/api_key';
+import API_KEY from '../../config/api_key';
 import { createUrlParams } from '../helpers/index';
 const { BrowserWindow } = window.require('electron').remote;
 const request = window.require('superagent');
 
 const requestGoogleToken = (options, code) => {
-
   request.post('https://accounts.google.com/o/oauth2/token', {
     client_id: options.client_id,
     client_secret: options.client_secret,
     code: code,
-    redirect_uri: 'http://localhost:5000/oauth2callback',
+    redirect_uri: 'http://localhost:5000/noti_google_callback',
     grant_type: 'authorization_code'
   })
   .set("Content-Type", "application/x-www-form-urlencoded")
@@ -37,18 +36,15 @@ const requestGoogleToken = (options, code) => {
 
 export const authenticateUser = dispatch => {
   let baseUrl = 'https://accounts.google.com/o/oauth2/auth';
-  let redirectUrl = 'http://localhost:5000/oauth2callback';
+  let redirectUrl = 'http://localhost:5000/noti_google_callback';
   let scope = [
-    'https://gdata.youtube.com',
-    'https://www.googleapis.com/auth/youtube',
-    'https://www.googleapis.com/auth/youtube.force-ssl',
-    'https://www.googleapis.com/auth/youtube.upload',
+    'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email'
+    'https://www.googleapis.com/auth/gmail.readonly'
   ].join(' ');
 
   let params = {
-    client_id: GOOGL_API_KEY.clientId,
+    client_id: API_KEY.google.clientId,
     redirect_uri: redirectUrl,
     scope: scope,
     response_type: 'code',
@@ -60,8 +56,8 @@ export const authenticateUser = dispatch => {
   let requestUrl = `${baseUrl}?${urlParams}`;
 
   let options = {
-    client_id: GOOGL_API_KEY.clientId,
-    client_secret: GOOGL_API_KEY.clientSecret,
+    client_id: API_KEY.google.clientId,
+    client_secret: API_KEY.google.clientSecret,
     scope: scope
   };
 
@@ -69,7 +65,9 @@ export const authenticateUser = dispatch => {
     width: 800,
     height: 600,
     show: false,
-    'node-integration': false
+    webPreferences: {
+      nodeIntegration: false
+    }
   });
 
   authWindow.loadURL(requestUrl);
@@ -138,8 +136,8 @@ export const fetchUserInfo = () => dispatch => {
 export const refreshToken = () => {
   // console.log('refreshing');
   request.post('https://accounts.google.com/o/oauth2/token', {
-    client_id: GOOGL_API_KEY.clientId,
-    client_secret: GOOGL_API_KEY.clientSecret,
+    client_id: API_KEY.google.clientId,
+    client_secret: API_KEY.google.clientSecret,
     refresh_token: localStorage.getItem('google-refresh-token'),
     grant_type: 'refresh_token'
   })
@@ -157,4 +155,24 @@ export const refreshToken = () => {
       console.log(err);
     }
   });
+};
+
+export const getGmail = () => {
+  let userId = JSON.parse(window.localStorage.getItem('google-user')).email;
+  let accessToken = window.localStorage.getItem('google-access-token');
+  request.post(`https://www.googleapis.com/gmail/v1/users/${userId}/watch?key=${API_KEY.google.apiKey}`)
+         .send({
+           "labelIds": ["INBOX"],
+           "topicName": "projects/noti-165302/topics/gmail"
+         })
+         .set("Authorization", 'Bearer ' + accessToken)
+         .end(function (response, err) {
+           if (response && response.ok) {
+             console.log("Success");
+             console.log(response.body);
+           } else {
+             console.log("BE HAPPY!");
+             console.log(err);
+           }
+         });
 };

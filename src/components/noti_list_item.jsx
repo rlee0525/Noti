@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Collapse } from 'react-collapse';
 
 class NotiListItem extends React.Component {
@@ -53,5 +54,10 @@ class NotiListItem extends React.Component {
     );
   }
 }
+
+NotiListItem.propTypes = {
+  noti: PropTypes.string.isRequired,
+  description: PropTypes.string
+};
 
 export default NotiListItem;

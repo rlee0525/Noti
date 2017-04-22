@@ -1,15 +1,48 @@
-const { app, BrowserWindow } = require('electron');
+const { app, Tray, Menu, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
-let win;
+const iconPath = path.join(__dirname, 'app', 'assets', 'icon.png');
+let appIcon = null;
+let win = null;
 
 const createWindow = () => {
+  appIcon = new Tray(iconPath);
+
+  var contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Mute'
+    },
+    {
+      label: 'Settings',
+      click: function() {
+        win.show();
+      }
+    },
+    {
+      label: 'Toggle DevTools',
+      accelerator: 'Alt+Command+I',
+      click: function() {
+        win.show();
+        win.toggleDevTools();
+      }
+    },
+    { 
+      label: 'Quit',
+      accelerator: 'Command+Q',
+      selector: 'terminate:',
+    }
+  ]);
+
+  appIcon.setToolTip('This is my application.');
+  appIcon.setContextMenu(contextMenu);
+
   win = new BrowserWindow({
     minWidth: 530,
     minHeight: 330,
     width: 800,
-    height: 600
+    height: 600,
+    show: false
   });
 
   win.loadURL(url.format({

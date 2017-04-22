@@ -1,13 +1,16 @@
-const { app, Tray, Menu, BrowserWindow } = require('electron');
+const { app, Tray, Menu, BrowserWindow, nativeImage } = require('electron');
 const path = require('path');
 const url = require('url');
 
-const iconPath = path.join(__dirname, 'app', 'assets', 'icon.png');
+const iconTemplatePath = path.join(__dirname, 'app', 'assets', 'iconTemplate.png');
+const iconHightlightPath = path.join(__dirname, 'app', 'assets', 'iconHighlight.png');
 let appIcon = null;
 let win = null;
 
 const createWindow = () => {
-  appIcon = new Tray(iconPath);
+
+  appIcon = new Tray(iconTemplatePath);
+  appIcon.setPressedImage(iconHightlightPath);
 
   var contextMenu = Menu.buildFromTemplate([
     {
@@ -42,7 +45,7 @@ const createWindow = () => {
     minHeight: 330,
     width: 800,
     height: 600,
-    show: false
+    show: true
   });
 
   win.loadURL(url.format({

@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
+import { receiveUser } from '../actions/oauth_actions';
 import Notifications from '../notifications.json';
 import NotiListItem from './noti_list_item';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -17,8 +20,8 @@ class App extends React.Component {
   renderTabs() {
     let tabs = Object.keys(Notifications);
     return tabs.map( tab => (
-      <div 
-        key={Math.random()} 
+      <div
+        key={Math.random()}
         onClick={() => this.setState({ tab })} >
         {tab}
       </div>
@@ -30,8 +33,8 @@ class App extends React.Component {
     let keys = Object.keys(notifications);
 
     return keys.map( key => (
-      <NotiListItem 
-        key={key} 
+      <NotiListItem
+        key={key}
         noti={key}
         description={notifications[key]} />
     ));
@@ -44,6 +47,8 @@ class App extends React.Component {
           <div className="tab-list">
             {this.renderTabs()}
           </div>
+          <div className="tab-list-logout"
+               onClick={ () => { this.props.logout; this.props.router.push('/app'); } }> LOGOUT </div>
         </div>
         <div className='right'>
           <div className="noti-list">
@@ -55,16 +60,23 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-       
+
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+App.propTypes = {
+  logout: PropTypes.func,
+  user: PropTypes.object
+};
+
+const mapStateToProps = ({ user }) => ({
+  user
 });
 
 const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(receiveUser(null))
 });
 
 export default connect(

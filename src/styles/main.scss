@@ -23,6 +23,11 @@
   height: 100vh;
 }
 
+.tab-list-logout {
+  color: #fff;
+  cursor: pointer;
+}
+
 .tab-list {
   display: flex;
   flex-direction: column;
@@ -45,7 +50,6 @@
     opacity: 1;
   }
 }
-
 
 // right setting bar
 .right {

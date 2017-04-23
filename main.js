@@ -1,4 +1,4 @@
-const { app, Tray, Menu, BrowserWindow, nativeImage } = require('electron');
+const { app, Tray, Menu, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -7,27 +7,24 @@ const iconHightlightPath = path.join(__dirname, 'app', 'assets', 'iconHighlight.
 let appIcon = null;
 let win = null;
 
-const createWindow = () => {
-
-  appIcon = new Tray(iconTemplatePath);
-  appIcon.setPressedImage(iconHightlightPath);
-
-  var contextMenu = Menu.buildFromTemplate([
+const initializeMenu = () => {
+  let template = [
     {
       label: 'Mute'
     },
     {
       label: 'Settings',
+      accelerator: "Command+,",
       click: function() {
-        win.show();
+        appIcon.window.show();
       }
     },
     {
       label: 'Toggle DevTools',
       accelerator: 'Alt+Command+I',
       click: function() {
-        win.show();
-        win.toggleDevTools();
+        appIcon.window.show();
+        appIcon.window.toggleDevTools();
       }
     },
     { 
@@ -35,29 +32,65 @@ const createWindow = () => {
       accelerator: 'Command+Q',
       selector: 'terminate:',
     }
-  ]);
+  ];
 
-  appIcon.setToolTip('This is my application.');
+  appIcon = new Tray(iconTemplatePath);
+  appIcon.setPressedImage(iconHightlightPath);
+
+  var contextMenu = Menu.buildFromTemplate(template);
+
+  appIcon.setToolTip('All your notifications on your menu bar.');
   appIcon.setContextMenu(contextMenu);
 
-  win = new BrowserWindow({
-    minWidth: 530,
-    minHeight: 330,
-    width: 800,
-    height: 600,
-    show: true
-  });
+};
 
-  win.loadURL(url.format({
+const hideWindow = () => {
+  if(!appIcon.window) { return; }
+  appIcon.window.hide();
+};
+
+const showWindow = () => {
+  if(appIcon.window) { return; }
+  appIcon.window.show();
+};
+
+const createWindow = () => {
+  initializeMenu();
+
+  let windowParams = {
+    width: 400,
+    height: 600,
+    resizeable: false,
+    show: false,
+    webPreferences: {
+      overlayScrollbars: true
+    }
+  };
+
+  appIcon.window = new BrowserWindow(windowParams);
+
+  appIcon.window.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
   }));
 
-  win.webContents.openDevTools();
+  // appIcon.window.on('blur', hideWindow);
 
-  win.on('closed', () => {
-    win = null;
+  appIcon.window.webContents.openDevTools();
+
+  appIcon.window.on('closed', () => {
+    appIcon.window = null;
+  });
+
+  appIcon.window.webContents.on('devtools-opened', (event, deviceList, callback) => {
+    appIcon.window.setSize(800, 600);
+    appIcon.window.setResizable(true);
+  });
+
+  appIcon.window.webContents.on('devtools-closed', (event, deviceList, callback) => {
+    appIcon.window.setSize(400, 600);
+    appIcon.window.setResizable(false);
   });
 
 };
@@ -69,8 +102,4 @@ app.on('window-all-closed', () => {
   if(process.platform !== 'darwin') {
     app.quit();
   }
-});
-
-app.on('activate', () => {
-  if (win === null) createWindow();
 });

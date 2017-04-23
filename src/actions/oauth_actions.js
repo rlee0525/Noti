@@ -1,4 +1,4 @@
-import * as OauthAPI from '../util/oauth_goog_util';
+import * as OauthAPI from '../util/client_oauth';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 
@@ -8,7 +8,7 @@ export const receiveUser = user => ({
 });
 
 export const loginUser = () => dispatch => {
-  OauthAPI.authenticateUser(dispatch);
+  OauthAPI.authenticateGoogle(dispatch);
 };
 
 export const watchGmail = () => dispatch => {

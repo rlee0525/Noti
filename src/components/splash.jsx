@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loginUser, watchGmail } from '../actions/oauth_actions';
-import { authenticateGithub } from '../util/github_oauth';
+import { authenticateGithub } from '../util/client_oauth';
+import { fetchNotifications } from '../util/notification_util';
 
 class Splash extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Splash extends React.Component {
   render() {
     return (
       <div>
+        <div onClick={fetchNotifications}>Fetch Noti</div>
         <div onClick={this.props.watchGmail}> NOTI GMAIL!</div>
         <div onClick={authenticateGithub}>Github</div>
         NOTI!

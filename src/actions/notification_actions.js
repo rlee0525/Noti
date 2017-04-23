@@ -1,3 +1,5 @@
+import * as NotificationApi from '../util/notification_util';
+
 export const NOTIFICATIONS = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',
@@ -5,5 +7,11 @@ export const NOTIFICATIONS = {
 };
 
 export const fetchNotifications = () => {
-  
-}
+  return NotificationApi.fetchNotifications().then(
+    res => res.json()
+  ).then(
+    resJson => console.log(resJson)
+  ).catch(
+    err => console.log(err)
+  );
+};

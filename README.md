@@ -8,3 +8,5 @@ Current in development.
 - Menubar (toggle on/off button)
 - Settings
 - OAuth
+- GitHub / Gmail / Google Calender / Facebook / LinkedIn
+- Watch and notifications
